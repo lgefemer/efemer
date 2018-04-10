@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,7 +12,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -161,5 +162,27 @@ class User
         $this->createdAt = $createdAt;
 
         return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSalt()
+    {
+        return null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function eraseCredentials()
+    {}
+
+    /**
+     * @inheritDoc
+     */
+    public function getRoles(): array
+    {
+        return ['IS_AUTHENTICATED_FULLY'];
     }
 }
